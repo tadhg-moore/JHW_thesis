@@ -36,12 +36,6 @@ run_ensemble(config_file = config_file, model = model)
 
 
 
-
-
-
-################## Ignore for now ###################################
-
-
 ncdf <- 'output/ensemble_output.nc'
 vars <- gotmtools::list_vars(ncdf)
 vars # Print variables
@@ -60,33 +54,9 @@ if (Sys.getenv("RSTUDIO") == "1" && !nzchar(Sys.getenv("RSTUDIO_TERM")) &&
 }
 
 cali_res <- cali_ensemble(config_file = config_file, num = 100, cmethod = "LHC",
-                          parallel = TRUE, model = model)
+                        parallel = TRUE, model = model)
 
-
-plot_LHC(config_file = config_file, model = "GOTM", res_files = unlist(cali_res),
-         qual_met = "nse", best = "high")
-
-
-plot_LHC(config_file = config_file, model = model, res_files = unlist(cali_res),
-         qual_met = "nse", best = "high")
-
-res_LHC <- load_LHC_results(config_file = config_file, model = model, res_files = unlist(cali_res))
 
 best_p <- setNames(lapply(model, function(m)res_LHC[[m]][which.min(res_LHC[[m]]$rmse), ]), model)
 print(best_p)
-
-best_par <- setNames(lapply(model, function(m)cali_res[[m]]$bestpar), model)
-print(best_p)
-
-plot(p1)
-ens_out <- "output/ensemble_output.nc"
-
-p <- plot_ensemble(ncdf = ens_out, model = c( 'GLM',  'GOTM', 'Simstrat'), depth = 2,
-                   var = 'temp',  boxwhisker = TRUE, residuals = TRUE)
-plot(p)
-
-
-cali_res <- cali_ensemble(config_file = config_file, cmethod = "modFit",
-                          parallel = TRUE, model = model, method = "Nelder-Mead")
-
 
