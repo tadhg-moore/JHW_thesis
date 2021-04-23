@@ -4,7 +4,8 @@
 #devtools::install_github("USGS-R/glmtools", ref = "ggplot_overhaul")
 #devtools::install_github("aemon-j/FLakeR", ref = "inflow")
 #devtools::install_github("aemon-j/GOTMr")
-#devtools::install_github("aemon-j/gotmtools")
+#devtools::install_github("tadhg-moore/gotmtools", ref = "yaml")
+#devtools::install_github("tadhg-moore/LakeEnsemblR", ref = "flare")
 #devtools::install_github("aemon-j/SimstratR")
 #devtools::install_github("aemon-j/MyLakeR")
 
@@ -19,12 +20,12 @@ library(RColorBrewer)
 
 # Load LakeEnsemblR
 library(LakeEnsemblR)
-setwd("~/Dropbox/sunapee_ensemble")
+setwd("sunapee_ensemble")
 
 
 # Set config file & models
 config_file <- 'LakeEnsemblRsun.yaml'
-model <- c("GOTM", "GLM",  "MyLake")
+model <- c("FLake", "MyLake", "GOTM", "GLM",  "Simstrat")
 
 # Example run
 # 1. Export settings - creates directories with all model setups and exports settings from the LER configuration file
@@ -32,8 +33,6 @@ export_config(config_file = config_file, model = model)
 
 # 2. Run ensemble lake models
 run_ensemble(config_file = config_file, model = model)
-
-
 
 
 ncdf <- 'output/ensemble_output.nc'
